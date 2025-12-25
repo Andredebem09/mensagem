@@ -7,10 +7,11 @@ body {
     animation: gradientBG 15s ease infinite;
     display: flex;
     justify-content: center;
-    align-items: center;
-    height: 100vh;
+    align-items: flex-start; /* Para que o conteúdo fique no topo ao rolar */
+    min-height: 100vh;
     text-align: center;
-    overflow: hidden;
+    /* overflow: hidden; removido para permitir scroll */
+    padding-top: 50px; /* dá espaço para o topo */
 }
 
 @keyframes gradientBG {
@@ -27,6 +28,7 @@ body {
     max-width: 500px;
     position: relative;
     z-index: 1;
+    margin-bottom: 50px; /* espaço extra para scroll */
 }
 
 h1 { color: #ff3366; font-size: 2.5em; margin-bottom: 10px; }
