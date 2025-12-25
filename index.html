@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mensagem para Você 💖</title>
+    <link rel="stylesheet" href="estilo.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Oi, amor! 💕</h1>
+        <p>voce mesmo Marjhory!</p>
+        <p>Clique no botão abaixo para ver uma surpresa!</p>
+        <button id="revela">Ver Mensagem</button>
+        <div id="mensagem" class="oculto">
+            <h2>Eu te amo mais do que tudo! 😘</h2>
+            <p>Espero que seu dia seja tão incrível quanto você é para mim.</p>
+        </div>
+    </div>
+
+    <script>
+        const botao = document.getElementById('revela');
+        const mensagem = document.getElementById('mensagem');
+
+        botao.addEventListener('click', () => {
+            mensagem.classList.toggle('oculto');
+        });
+    </script>
+</body>
+</html>
