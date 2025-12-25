@@ -3,6 +3,23 @@ html {
     scroll-behavior: smooth;
 }
 
+.upload-btn {
+    display: inline-block;
+    background-color: #ff3366;
+    color: white;
+    padding: 12px 25px;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-top: 15px;
+    transition: 0.3s;
+}
+
+.upload-btn:hover {
+    background-color: #ff6699;
+    transform: scale(1.05);
+}
+
+
 body {
     margin: 0;
     padding: 0;
@@ -187,4 +204,34 @@ button:hover {
     .foto {
         border-radius: 15px;
     }
+
+    .foto-container {
+    position: relative;
+}
+
+.btn-remover {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: rgba(255, 51, 102, 0.9);
+    border: none;
+    color: white;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    font-size: 16px;
+    cursor: pointer;
+    display: none;
+}
+
+.foto-container:hover .btn-remover {
+    display: block;
+}
+
+@media (max-width: 600px) {
+    .btn-remover {
+        display: block;
+    }
+}
+
 }

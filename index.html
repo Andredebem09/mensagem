@@ -8,45 +8,103 @@
     <link rel="stylesheet" href="estilo.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Oi, amor! 💕</h1>
-        <p>Clique no botão abaixo para ver nossas fotinhas!</p>
-        <button id="revela">Ver Álbum</button>
+   <div class="container">
+    <h1>Para você, meu amor 💖</h1>
+    <p>Cada foto aqui é um pedacinho da minha alegria </p>
 
-        <div id="mensagem" class="oculto">
-            <h2>Eu te amo! 😘</h2>
-            <p>Algumas memórias nossas que eu adoro:</p>
-            <div class="galeria">
-                <img src="amor.jpeg" alt="Foto 1" class="foto">
-                <img src="amor2.jpeg" alt="Foto 2" class="foto">
-                <img src="amor3.jpeg" alt="Foto 3" class="foto">
-                <img src="amor4.jpeg" alt="Foto 4" class="foto">
-            </div>
-        </div>
-    </div>
+    <label class="upload-btn">
+        Adicionar fotinhas 📸
+        <input type="file" id="uploadFotos" accept="image/*" multiple hidden>
+    </label>
+
+    <div class="galeria" id="galeria"></div>
+</div>
+
+<div id="coracoes-container"></div>
+
 
     <div id="coracoes-container"></div>
 
-    <script>
-        const botao = document.getElementById('revela');
-        const mensagem = document.getElementById('mensagem');
-        const coracoesContainer = document.getElementById('coracoes-container');
+   <script>
+        const uploadInput = document.getElementById('uploadFotos');
+        const galeria = document.getElementById('galeria');
+        const STORAGE_KEY = 'album_namorada';
 
-        botao.addEventListener('click', () => {
-            mensagem.classList.toggle('oculto');
+        function carregarFotos() {
+            galeria.innerHTML = '';
+            const fotos = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+            fotos.forEach(src => adicionarFotoNaTela(src));
+        }
+
+        function salvarFoto(src) {
+            const fotos = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+            fotos.push(src);
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(fotos));
+        }
+
+       function removerFoto(src) {
+            const confirmar = confirm('Tem certeza que deseja apagar essa foto? 💔');
+
+            if (!confirmar) return;
+
+            let fotos = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+            fotos = fotos.filter(f => f !== src);
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(fotos));
+            carregarFotos();
+        }
+
+
+        function adicionarFotoNaTela(src) {
+            const container = document.createElement('div');
+            container.classList.add('foto-container');
+
+            const img = document.createElement('img');
+            img.src = src;
+            img.classList.add('foto');
+
+            const btn = document.createElement('button');
+            btn.innerHTML = '🗑';
+            btn.classList.add('btn-remover');
+            btn.onclick = () => removerFoto(src);
+
+            container.appendChild(img);
+            container.appendChild(btn);
+            galeria.appendChild(container);
+        }
+
+        uploadInput.addEventListener('change', function () {
+            const arquivos = Array.from(this.files);
+
+            arquivos.forEach(arquivo => {
+                if (!arquivo.type.startsWith('image/')) return;
+
+                const reader = new FileReader();
+                reader.onload = e => {
+                    const src = e.target.result;
+                    salvarFoto(src);
+                    adicionarFotoNaTela(src);
+                };
+                reader.readAsDataURL(arquivo);
+            });
+
             criarCoracoes();
+            this.value = '';
         });
 
         function criarCoracoes() {
-            for (let i = 0; i < 30; i++) {
+            for (let i = 0; i < 15; i++) {
                 const coracao = document.createElement('div');
                 coracao.classList.add('coracao');
                 coracao.style.left = Math.random() * 100 + 'vw';
-                coracao.style.animationDuration = 2 + Math.random() * 3 + 's';
-                coracoesContainer.appendChild(coracao);
-                setTimeout(() => { coracao.remove(); }, 5000);
+                coracao.style.animationDuration = (3 + Math.random() * 2) + 's';
+
+                document.getElementById('coracoes-container').appendChild(coracao);
+                setTimeout(() => coracao.remove(), 5000);
             }
         }
-    </script>
+
+        carregarFotos();
+</script>
+
 </body>
 </html>
