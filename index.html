@@ -9,22 +9,41 @@
 <body>
     <div class="container">
         <h1>Oi, amor! 💕</h1>
-        <p>voce mesmo Marjhory!</p>
         <p>Clique no botão abaixo para ver uma surpresa!</p>
+        <p>Sim, voce mesmo senhorita Maju!</p>
         <button id="revela">Ver Mensagem</button>
         <div id="mensagem" class="oculto">
+            <img src="amor.jpeg" alt="Foto Especial" class="foto">
             <h2>Eu te amo mais do que tudo! 😘</h2>
             <p>Espero que seu dia seja tão incrível quanto você é para mim.</p>
         </div>
     </div>
 
+    <div id="coracoes-container"></div>
+
     <script>
         const botao = document.getElementById('revela');
         const mensagem = document.getElementById('mensagem');
+        const coracoesContainer = document.getElementById('coracoes-container');
 
         botao.addEventListener('click', () => {
             mensagem.classList.toggle('oculto');
+            criarCoracoes();
         });
+
+        function criarCoracoes() {
+            for (let i = 0; i < 30; i++) {
+                const coracao = document.createElement('div');
+                coracao.classList.add('coracao');
+                coracao.style.left = Math.random() * 100 + 'vw';
+                coracao.style.animationDuration = 2 + Math.random() * 3 + 's';
+                coracoesContainer.appendChild(coracao);
+
+                setTimeout(() => {
+                    coracao.remove();
+                }, 5000);
+            }
+        }
     </script>
 </body>
 </html>
