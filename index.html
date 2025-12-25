@@ -3,19 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mensagem para Você 💖</title>
+
+    <title>Álbum Especial 💖</title>
     <link rel="stylesheet" href="estilo.css">
 </head>
 <body>
     <div class="container">
         <h1>Oi, amor! 💕</h1>
-        <p>Clique no botão abaixo para ver uma surpresa!</p>
-        <p>Sim, voce mesmo senhorita Maju!</p>
-        <button id="revela">Ver Mensagem</button>
+        <p>Clique no botão abaixo para ver nossas fotinhas!</p>
+        <button id="revela">Ver Álbum</button>
+
         <div id="mensagem" class="oculto">
-            <img src="amor.jpeg" alt="Foto Especial" class="foto">
-            <h2>Eu te amo mais do que tudo! 😘</h2>
-            <p>Espero que seu dia seja tão incrível quanto você é para mim.</p>
+            <h2>Eu te amo! 😘</h2>
+            <p>Algumas memórias nossas que eu adoro:</p>
+            <div class="galeria">
+                <img src="amor.jpeg" alt="Foto 1" class="foto">
+                <img src="amor2.jpeg" alt="Foto 2" class="foto">
+                <img src="amor3.jpeg" alt="Foto 3" class="foto">
+                <img src="amor4.jpeg" alt="Foto 4" class="foto">
+            </div>
         </div>
     </div>
 
@@ -38,10 +44,7 @@
                 coracao.style.left = Math.random() * 100 + 'vw';
                 coracao.style.animationDuration = 2 + Math.random() * 3 + 's';
                 coracoesContainer.appendChild(coracao);
-
-                setTimeout(() => {
-                    coracao.remove();
-                }, 5000);
+                setTimeout(() => { coracao.remove(); }, 5000);
             }
         }
     </script>
