@@ -3,52 +3,293 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Álbum Especial 💖</title>
+    <title>Para o Meu Amor 💖</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Outfit:wght@300;400;500&family=Dancing+Script:wght@600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="estilo.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Oi, amorzinho! 💕</h1>
-        <p>Clique no botão abaixo para ver nossas fotinhas!</p>
-        <button id="revela">Ver Álbum</button>
-
-        <div id="mensagem" class="oculto">
-            <h2>Eu te amo! 😘</h2>
-            <p>Algumas memórias nossas que eu adoro:</p>
-            <div class="galeria">
-                <img src="amor.jpeg" alt="Foto 1" class="foto">
-                <img src="amor2.jpeg" alt="Foto 2" class="foto">
-                <img src="amor3.jpeg" alt="Foto 3" class="foto">
-                <img src="amor4.jpeg" alt="Foto 4" class="foto">
-                <img src="amor5.jpeg" alt="Foto 4" class="foto">
-
-            </div>
-        </div>
+    <!-- Background Effects -->
+    <canvas id="starfield"></canvas>
+    <div class="background-effects">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
     </div>
 
+    <!-- Música de Fundo (Deixei comentado caso você queira adicionar um arquivo MP3 depois) -->
+    <!-- 
+    <audio id="bg-music" autoplay loop>
+        <source src="sua-musica-favorita.mp3" type="audio/mpeg">
+    </audio> 
+    -->
+
+    <!-- Seção 1: Hero -->
+    <section class="section hero" id="inicio">
+        <div class="hero-content fade-in-on-scroll">
+            <p class="pre-title">Uma pequena surpresa para...</p>
+            <h1>A Mulher da Minha Vida <span class="heart">💕</span></h1>
+            <p class="subtitle">Reservei este cantinho da internet só para nós.</p>
+            <div class="scroll-indicator">↓</div>
+        </div>
+    </section>
+
+
+    <!-- Seção 3: Por Que Eu Te Amo -->
+    <section class="section reasons" id="motivos">
+        <div class="container fade-in-on-scroll">
+            <div class="section-header">
+                <h2>Por que eu te amo?</h2>
+            </div>
+            <div class="reasons-grid">
+                <div class="reason-card">
+                    <div class="icon">✨</div>
+                    <h3>Seu Sorriso</h3>
+                    <p>Ele ilumina meus dias mais escuros e me traz uma paz que eu nunca conheci antes.</p>
+                </div>
+                <div class="reason-card">
+                    <div class="icon">💖</div>
+                    <h3>Seu Coração</h3>
+                    <p>A forma carinhosa como você cuida de mim e de todos ao seu redor é muito inspiradora.</p>
+                </div>
+                <div class="reason-card">
+                    <div class="icon">🌟</div>
+                    <h3>Nossa Sintonia</h3>
+                    <p>Nós nos entendemos apenas no olhar. Somos um time incrível, em todos os momentos.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção 4: A Galeria de Momentos -->
+    <section class="section gallery-section" id="galeria">
+        <div class="container fade-in-on-scroll">
+            <div class="section-header">
+                <h2>Nossos Momentos Inesquecíveis</h2>
+                <p>Cada foto é uma lembrança de como somos felizes juntos.</p>
+            </div>
+            
+            <div class="galeria">
+                <!-- Fallback na imagem caso não carregue a local -->
+                <div class="foto-wrapper"><img src="amor.jpeg" alt="Nossa memória 1" class="foto"></div>
+                <div class="foto-wrapper"><img src="amor2.jpeg" alt="Nossa memória 2" class="foto"></div>
+                <div class="foto-wrapper"><img src="amor3.jpeg" alt="Nossa memória 3" class="foto"></div>
+                <div class="foto-wrapper"><img src="amor4.jpeg" alt="Nossa memória 4" class="foto"></div>
+                <div class="foto-wrapper"><img src="amor5.jpeg" alt="Nossa memória 5" class="foto"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção 5: Carta Final Interativa -->
+    <section class="section final-message" id="carta">
+        <div class="container fade-in-on-scroll">
+            
+            <div class="envelope" id="envelope">
+                <div class="envelope-flap"></div>
+                <div class="envelope-body">
+                    <span>Clique para abrir a carta 💌</span>
+                </div>
+            </div>
+            
+            <div class="letter oculto" id="letter">
+                <h2>Meu Amor,</h2>
+                <div class="letter-content" id="typewriter-text">
+                    <!-- O texto será digitado automaticamente aqui pelo JavaScript -->
+                </div>
+                <p class="signature oculto" id="signature">De miolo mole.</p>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Container para animação de corações -->
     <div id="coracoes-container"></div>
 
     <script>
-        const botao = document.getElementById('revela');
-        const mensagem = document.getElementById('mensagem');
-        const coracoesContainer = document.getElementById('coracoes-container');
+        // Animação de entrada dos elementos conforme o scroll desce
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: "0px 0px -50px 0px"
+        };
 
-        botao.addEventListener('click', () => {
-            mensagem.classList.toggle('oculto');
-            criarCoracoes();
-        });
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    
+                    // Se for a galeria, anima as fotos em cascata
+                    if (entry.target.querySelector('.galeria')) {
+                        const fotos = entry.target.querySelectorAll('.foto-wrapper');
+                        fotos.forEach((foto, index) => {
+                            setTimeout(() => {
+                                foto.classList.add('show');
+                            }, index * 200 + 300);
+                        });
+                    }
+                }
+            });
+        }, observerOptions);
 
-        function criarCoracoes() {
-            for (let i = 0; i < 30; i++) {
-                const coracao = document.createElement('div');
-                coracao.classList.add('coracao');
-                coracao.style.left = Math.random() * 100 + 'vw';
-                coracao.style.animationDuration = 2 + Math.random() * 3 + 's';
-                coracoesContainer.appendChild(coracao);
-                setTimeout(() => { coracao.remove(); }, 5000);
+        document.querySelectorAll('.fade-in-on-scroll').forEach(el => observer.observe(el));
+
+        // Lógica da Carta Interativa
+        const envelope = document.getElementById('envelope');
+        const letter = document.getElementById('letter');
+        const typewriterText = document.getElementById('typewriter-text');
+        const signature = document.getElementById('signature');
+        
+        // Mensagem da carta - Sinta-se livre para editar no código!
+        const message = "Fiz esta pequena surpresa para te lembrar o quanto você é especial na minha vida. Nem sempre consigo colocar em palavras a imensidão do que sinto por você, mas espero que cada detalhe daqui te faça sorrir. Obrigado por existir, por ser minha companheira, minha melhor amiga e o grande amor da minha vida. Eu te amo.";
+
+        let charIndex = 0;
+        
+        function typeWriter() {
+            if (charIndex < message.length) {
+                typewriterText.innerHTML += message.charAt(charIndex);
+                charIndex++;
+                setTimeout(typeWriter, 50); // Velocidade da digitação
+            } else {
+                signature.classList.remove('oculto');
+                signature.classList.add('visivel');
+                criarCoracoes(50);
             }
         }
+
+        envelope.addEventListener('click', () => {
+            envelope.classList.add('opened');
+            setTimeout(() => {
+                envelope.style.display = 'none';
+                letter.classList.remove('oculto');
+                letter.classList.add('visivel');
+                typeWriter();
+            }, 800);
+        });
+
+        // Efeito de corações flutuantes ao final
+        const coracoesContainer = document.getElementById('coracoes-container');
+        
+        function criarCoracoes(quantidade) {
+            for (let i = 0; i < quantidade; i++) {
+                const coracao = document.createElement('div');
+                coracao.classList.add('coracao');
+                
+                const size = Math.random() * 15 + 10;
+                coracao.style.width = `${size}px`;
+                coracao.style.height = `${size}px`;
+                coracao.style.left = `${Math.random() * 100}vw`;
+                
+                const duration = Math.random() * 4 + 4;
+                coracao.style.animationDuration = `${duration}s`;
+                coracao.style.animationDelay = `${Math.random() * 2}s`;
+                
+                coracoesContainer.appendChild(coracao);
+                
+                setTimeout(() => { 
+                    coracao.remove(); 
+                }, (duration + 2) * 1000);
+            }
+        }
+
+        // --- Efeitos Criativos e Interativos ---
+
+        // Mouse Tracker para a interação com as pétalas
+        let mouseX = -1000, mouseY = -1000;
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+
+        // 2. 3D Tilt Effect nas cartas e fotos
+        const tiltElements = document.querySelectorAll('.reason-card, .foto-wrapper');
+        tiltElements.forEach(el => {
+            el.addEventListener('mousemove', (e) => {
+                const rect = el.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                const tiltX = (y - centerY) / 10;
+                const tiltY = (centerX - x) / 10;
+                
+                el.style.transform = `perspective(1000px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale3d(1.02, 1.02, 1.02)`;
+                el.style.zIndex = "10";
+            });
+            
+            el.addEventListener('mouseleave', () => {
+                el.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
+                el.style.zIndex = "1";
+            });
+        });
+
+        // 3. Canvas Petals Effect (Ultra Romântico)
+        const canvas = document.getElementById('starfield');
+        const ctx = canvas.getContext('2d');
+        let width, height, petals;
+
+        function initCanvas() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+            petals = [];
+            const petalCount = window.innerWidth < 768 ? 30 : 70;
+            for(let i=0; i<petalCount; i++) {
+                petals.push({
+                    x: Math.random() * width,
+                    y: Math.random() * height,
+                    w: Math.random() * 10 + 5,
+                    h: Math.random() * 5 + 3,
+                    vx: (Math.random() - 0.5) * 1,
+                    vy: Math.random() * 1 + 0.5,
+                    angle: Math.random() * 360,
+                    spin: (Math.random() - 0.5) * 2,
+                    color: `rgba(${255 - Math.random() * 40}, ${100 + Math.random() * 50}, ${130 + Math.random() * 50}, ${0.4 + Math.random() * 0.4})`
+                });
+            }
+        }
+
+        function drawCanvas() {
+            ctx.clearRect(0, 0, width, height);
+            
+            petals.forEach((p) => {
+                p.x += p.vx;
+                p.y += p.vy;
+                p.angle += p.spin;
+                
+                // Interação com o mouse (vento)
+                const mouseDist = Math.hypot(p.x - mouseX, p.y - mouseY);
+                if(mouseDist < 100) {
+                    p.x += (p.x - mouseX) * 0.02;
+                    p.y += (p.y - mouseY) * 0.02;
+                }
+                
+                // Resetar quando sai da tela
+                if(p.y > height + 20) {
+                    p.y = -20;
+                    p.x = Math.random() * width;
+                }
+                if(p.x > width + 20) p.x = -20;
+                if(p.x < -20) p.x = width + 20;
+                
+                ctx.save();
+                ctx.translate(p.x, p.y);
+                ctx.rotate(p.angle * Math.PI / 180);
+                ctx.fillStyle = p.color;
+                
+                // Desenhar forma de pétala
+                ctx.beginPath();
+                ctx.moveTo(0, 0);
+                ctx.bezierCurveTo(p.w/2, -p.h, p.w, 0, 0, p.h);
+                ctx.bezierCurveTo(-p.w/2, p.h, -p.w, 0, 0, 0);
+                ctx.fill();
+                ctx.restore();
+            });
+            requestAnimationFrame(drawCanvas);
+        }
+
+        window.addEventListener('resize', initCanvas);
+        initCanvas();
+        drawCanvas();
     </script>
 </body>
 </html>
