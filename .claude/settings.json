@@ -10,7 +10,12 @@
       "Bash(timeout 8 npx vite --port 5176)",
       "Bash(curl -s -o /dev/null -w \"index.html: %{http_code}\\\\n\" http://localhost:5176/)",
       "Bash(curl -s -o /dev/null -w \"amor11.jpeg: %{http_code}\\\\n\" http://localhost:5176/amor11.jpeg)",
-      "Bash(curl -s http://localhost:5176/)"
+      "Bash(curl -s http://localhost:5176/)",
+      "Bash(git config *)",
+      "Bash(command -v gh)",
+      "Bash(gh auth *)",
+      "Bash(timeout 7 npx vite --port 5177)",
+      "Bash(curl -s -o /dev/null -w \"index.html: %{http_code}\\\\n\" http://localhost:5177/)"
     ]
   }
 }
