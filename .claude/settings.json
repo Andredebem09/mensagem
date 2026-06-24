@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(chmod +x node_modules/.bin/vite node_modules/vite/bin/vite.js)",
+      "Bash(npm install *)",
+      "WebFetch(domain:landonorris.com)",
+      "Bash(timeout 8 npx vite --port 5174)",
+      "Bash(curl -s -o /dev/null -w \"HTTP %{http_code}\\\\n\" http://localhost:5174/)",
+      "Read(//tmp/**)",
+      "Bash(timeout 8 npx vite --port 5176)",
+      "Bash(curl -s -o /dev/null -w \"index.html: %{http_code}\\\\n\" http://localhost:5176/)",
+      "Bash(curl -s -o /dev/null -w \"amor11.jpeg: %{http_code}\\\\n\" http://localhost:5176/amor11.jpeg)",
+      "Bash(curl -s http://localhost:5176/)"
+    ]
+  }
+}
